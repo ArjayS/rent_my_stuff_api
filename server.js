@@ -11,61 +11,117 @@ app.use(express.json());
 
 // // routes
 
-// Get all items
+// Getting all items
 app.get("/api/items", async (req, res) => {
-  const results = await db.query("SELECT * FROM items");
-  console.log(results);
+  try {
+    const results = await db.query("SELECT * FROM items");
 
-  res.status(200).json({
-    status: "success",
-    data: {
-      items: ["stapler", "pen"],
-    },
-  });
+    console.log(results);
+
+    res.status(200).json({
+      status: "success",
+      results: results.rows.length,
+      data: {
+        items: results.rows,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
-// Get an item
-app.get("/api/item/:id", (req, res) => {
-  console.log(req.params);
+// Getting an item
+app.get("/api/item/:id", async (req, res) => {
+  try {
+    const results = await db.query("SELECT * FROM items WHERE id = $1", [
+      req.params.id,
+    ]);
 
-  res.status(200).json({
-    status: "success",
-    data: {
-      items: "stapler",
-    },
-  });
+    console.log(results);
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        items: results.rows[0],
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
-// Create an item
-app.post("/api/items", (req, res) => {
-  console.log(req.body);
+// Creating an item
+app.post("/api/items", async (req, res) => {
+  try {
+    const results = await db.query(
+      "INSERT INTO items (owner_id, title, location, status, item_image, description) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+      [
+        req.body.owner_id,
+        req.body.title,
+        req.body.location,
+        req.body.status,
+        req.body.item_image,
+        req.body.description,
+      ]
+    );
 
-  res.status(201).json({
-    status: "success",
-    data: {
-      items: "stapler",
-    },
-  });
+    console.log(results);
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        items: results.rows[0],
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
-// Update an item
-app.put("/api/item/:id", (req, res) => {
-  console.log(req.params.id);
-  console.log(req.body);
+// Updating an item
+app.put("/api/item/:id", async (req, res) => {
+  try {
+    const results = await db.query(
+      "UPDATE items SET owner_id = $1, title = $2, location = $3, status = $4, item_image = $5, description = $6 WHERE id = $7 RETURNING *",
+      [
+        req.body.owner_id,
+        req.body.title,
+        req.body.location,
+        req.body.status,
+        req.body.item_image,
+        req.body.description,
+        req.params.id,
+      ]
+    );
 
-  res.status(200).json({
-    status: "success",
-    data: {
-      items: "scissors",
-    },
-  });
+    console.log(results);
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        items: results.rows[0],
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
-// Delete an item
-app.delete("/api/item/:id", (req, res) => {
-  res.status(204).json({
-    status: "success",
-  });
+// Deleting an item
+app.delete("/api/item/:id", async (req, res) => {
+  try {
+    const results = await db.query("DELETE FROM items WHERE id = $1", [
+      req.params.id,
+    ]);
+
+    console.log(results);
+
+    res.status(204).json({
+      status: "success",
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 // // /api/units
