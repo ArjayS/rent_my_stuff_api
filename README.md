@@ -4,7 +4,7 @@ Use the _psql -U development_ command to login to the PostgreSQL server with the
 
 Create a database with the command _CREATE DATABASE rentmystuff;_
 
-Copy the _.end.example_ file to _.env_ and fill in the necessary PostgreSQL configuration. The _node-postgres_ library uses the environment variables by default.
+Copy the _.env.example_ file to _.env_ and fill in the necessary PostgreSQL configuration. The _node-postgres_ library uses the environment variables by default.
 
 ```sh
 PORT=3005
