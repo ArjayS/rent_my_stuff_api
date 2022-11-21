@@ -30,7 +30,7 @@ CREATE TABLE reservations (
   end_date DATE,
   date_returned DATE,
   item_price INTEGER NOT NULL DEFAULT 0,
-  approval BOOLEAN NOT NULL DEFAULT TRUE
+  approval BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE user_reviews (
