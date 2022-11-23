@@ -2,12 +2,14 @@ module.exports = function (router, db) {
   // Getting all items
   router.get("/", async (req, res) => {
     try {
-      const results = await db.query("SELECT * FROM items");
+      const results = await db.query(
+        "SELECT * FROM items LEFT JOIN (SELECT item_id, COUNT(*), TRUNC(AVG(item_rating),1) as average_rating FROM item_reviews group by item_id) item_reviews ON items.id = item_reviews.item_id"
+      );
 
       console.log(results);
 
       res.status(200).json({
-        status: "success",
+        status: "Successfully getting all items",
         results: results.rows.length,
         data: {
           items: results.rows,
@@ -29,9 +31,9 @@ module.exports = function (router, db) {
       console.log(results);
 
       res.status(200).json({
-        status: "success",
+        status: "Successfully getting the item",
         data: {
-          items: results.rows[0],
+          item: results.rows[0],
         },
       });
     } catch (error) {
@@ -43,23 +45,24 @@ module.exports = function (router, db) {
   router.post("/", async (req, res) => {
     try {
       const results = await db.query(
-        "INSERT INTO items (owner_id, title, location, status, item_image, description) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+        "INSERT INTO items (owner_id, item_name, item_location,item_base_price, item_status, item_image, item_description) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
         [
           req.body.owner_id,
-          req.body.title,
-          req.body.location,
-          req.body.status,
+          req.body.item_name,
+          req.body.item_location,
+          req.body.item_base_price,
+          req.body.item_status,
           req.body.item_image,
-          req.body.description,
+          req.body.item_description,
         ]
       );
 
       console.log(results);
 
       res.status(201).json({
-        status: "success",
+        status: "Successfully added/created a new item",
         data: {
-          items: results.rows[0],
+          item: results.rows[0],
         },
       });
     } catch (error) {
@@ -71,14 +74,15 @@ module.exports = function (router, db) {
   router.put("/item/:id", async (req, res) => {
     try {
       const results = await db.query(
-        "UPDATE items SET owner_id = $1, title = $2, location = $3, status = $4, item_image = $5, description = $6 WHERE id = $7 RETURNING *",
+        "UPDATE items SET owner_id = $1, item_name= $2, item_location = $3, item_base_price = $4, item_status = $5, item_image = $6, item_description = $7 WHERE id = $8 RETURNING *",
         [
           req.body.owner_id,
-          req.body.title,
-          req.body.location,
-          req.body.status,
+          req.body.item_name,
+          req.body.item_location,
+          req.body.item_base_price,
+          req.body.item_status,
           req.body.item_image,
-          req.body.description,
+          req.body.item_description,
           req.params.id,
         ]
       );
@@ -86,9 +90,9 @@ module.exports = function (router, db) {
       console.log(results);
 
       res.status(200).json({
-        status: "success",
+        status: "Successfully update/ edit the item",
         data: {
-          items: results.rows[0],
+          item: results.rows[0],
         },
       });
     } catch (error) {
@@ -99,14 +103,18 @@ module.exports = function (router, db) {
   // Deleting an item
   router.delete("/item/:id", async (req, res) => {
     try {
-      const results = await db.query("DELETE FROM items WHERE id = $1", [
-        req.params.id,
-      ]);
+      const results = await db.query(
+        "DELETE FROM items WHERE id = $1 RETURNING *",
+        [req.params.id]
+      );
 
       console.log(results);
 
       res.status(204).json({
-        status: "success",
+        status: "Successfully deleted/remove the item",
+        data: {
+          item: results.rows[0],
+        },
       });
     } catch (error) {
       console.log(error);
