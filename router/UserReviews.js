@@ -13,7 +13,7 @@ module.exports = function (router, db) {
         status: "Successfully got the user reviews!",
         results: results.rows.length,
         data: {
-          userReview: results.rows,
+          userReviews: results.rows,
         },
       });
     } catch (error) {
@@ -21,6 +21,7 @@ module.exports = function (router, db) {
     }
   });
 
+  // Creating a new user review based on renter
   router.post("/renter/:id", async (req, res) => {
     try {
       const results = await db.query(
@@ -46,4 +47,6 @@ module.exports = function (router, db) {
       console.log(error);
     }
   });
+
+  return router;
 };
