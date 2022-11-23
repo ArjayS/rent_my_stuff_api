@@ -31,11 +31,34 @@ app.use(express.json());
 // ROUTES
 
 // Items Routes, CONNECTED through -> ./router/Items.js
-const itemRoutes = require("./router/Items");
-const db = require("./db");
-const itemRouter = express.Router();
-itemRoutes(itemRouter, database);
-app.use("/api/items", itemRouter);
+const itemsRoutes = require("./router/Items");
+const itemsRouter = express.Router();
+itemsRoutes(itemsRouter, database);
+app.use("/api/items", itemsRouter);
+
+// Users Routes, CONNECTED through -> ./router/Users.js
+const usersRoutes = require("./router/Users");
+const usersRouter = express.Router();
+usersRoutes(usersRouter, database);
+app.use("/api/users", usersRouter);
+
+// Reservations Routes, CONNECTED through -> ./router/Reservations.js
+const reservationsRoutes = require("./router/Reservations");
+const reservationsRouter = express.Router();
+reservationsRoutes(reservationsRouter, database);
+app.use("/api/reservations", reservationsRouter);
+
+// userReviews Routes, CONNECTED through -> ./router/UserReviews.js
+const userReviewsRoutes = require("./router/UserReviews");
+const userReviewsRouter = express.Router();
+userReviewsRoutes(userReviewsRouter, database);
+app.use("/api/userreviews", userReviewsRouter);
+
+// itemReviews Routes, CONNECTED through -> ./router/ItemReviews.js
+const itemReviewsRoutes = require("./router/ItemReviews");
+const itemReviewsRouter = express.Router();
+itemReviewsRoutes(itemReviewsRouter, database);
+app.use("/api/itemreviews", itemReviewsRouter);
 
 // // Attempt to Reset Database -> http://localhost:3005/api/debug/reset
 // module.exports = function () {
