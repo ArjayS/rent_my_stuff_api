@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require('cors')
 const database = require("./db");
 
 // const fs = require("fs");
@@ -10,6 +11,7 @@ const morgan = require("morgan");
 
 // MIDDLEWARE
 app.use(morgan("dev"));
+app.use(cors())
 app.use(express.json());
 
 // // Function to be able to "read(file)". This is a setup function for /api/debug/reset.
