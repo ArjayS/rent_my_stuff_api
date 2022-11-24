@@ -1,9 +1,9 @@
 module.exports = function (router, db) {
-  // Getting a user review for a renter
+  // 13. Getting a user review for a renter -> :id is based on user_reviews.guest_id
   router.get("/renter/:id", async (req, res) => {
     try {
       const results = await db.query(
-        "SELECT * FROM user_reviews LEFT JOIN (SELECT id, user_name, user_image FROM users GROUP BY id) users ON users.id = user_reviews.owner_id RIGHT JOIN (SELECT id, item_name, item_base_price, item_image, item_id, rsrv_price_bid FROM items LEFT JOIN (SELECT item_id, rsrv_price_bid FROM reservations) reservations ON items.id = reservations.item_id) items ON items.id = user_reviews.item_id WHERE guest_id = $1",
+        "SELECT * FROM user_reviews LEFT JOIN (SELECT id, user_name AS owner_name, user_image AS owner_image FROM users GROUP BY id) users ON users.id = user_reviews.owner_id RIGHT JOIN (SELECT id, item_name, item_base_price, item_image, item_id, rsrv_price_bid FROM items LEFT JOIN (SELECT item_id, rsrv_price_bid FROM reservations) reservations ON items.id = reservations.item_id) items ON items.id = user_reviews.item_id WHERE guest_id = $1",
         [req.params.id]
       );
 
@@ -21,7 +21,7 @@ module.exports = function (router, db) {
     }
   });
 
-  // Creating a new user review based on renter
+  // 14. Creating a new user review based on renter -> :id is based on user_reviews.guest_id
   router.post("/renter/:id", async (req, res) => {
     try {
       const results = await db.query(
@@ -37,7 +37,7 @@ module.exports = function (router, db) {
 
       console.log(results);
 
-      res.status(200).json({
+      res.status(201).json({
         status: "Successfully created a renter review!",
         data: {
           user: results.rows[0],
