@@ -1,5 +1,5 @@
 module.exports = function (router, db) {
-  // Getting all users
+  // 7. Getting all users
   router.get("/", async (req, res) => {
     try {
       const results = await db.query(
@@ -20,7 +20,7 @@ module.exports = function (router, db) {
     }
   });
 
-  // Getting a user
+  // 8. Getting a user -> :id is based on users.id
   router.get("/user/:id", async (req, res) => {
     try {
       const results = await db.query(
@@ -53,6 +53,13 @@ module.exports = function (router, db) {
           req.body.user_image,
         ]
       );
+      res.status(201).json({
+        status: "Successfully getting all items",
+        results: results.rows.length,
+        data: {
+          items: results.rows,
+        },
+      });
     } catch (error) {
       console.log(error);
     }
@@ -61,5 +68,5 @@ module.exports = function (router, db) {
   return router;
 };
 
-// Getting the specific item rating, base price and bid price
+// Getting the specific item rating, base price and bid price by a renter
 // SELECT * FROM items LEFT JOIN (SELECT item_id, COUNT(*)as total_rent_count, TRUNC(AVG(item_rating),1) as average_rating FROM item_reviews group by item_id) item_reviews ON items.id = item_reviews.item_id RIGHT JOIN (SELECT item_id, rsrv_price_bid FROM reservations) reservations ON items.id = reservations.item_id
