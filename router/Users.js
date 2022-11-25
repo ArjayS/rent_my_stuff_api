@@ -42,8 +42,8 @@ module.exports = function (router, db) {
   });
 
   //Getting items owned by user
-  router.get("/:id/items", async (req,res) => {
-    try{
+  router.get("/:id/items", async (req, res) => {
+    try {
       const results = await db.query(
         "SELECT * FROM items WHERE owner_id = $1;",
         [req.params.id]
@@ -51,13 +51,13 @@ module.exports = function (router, db) {
       res.status(200).json({
         status: "Successfully getting the user items!",
         data: {
-          user: results.rows[0],
+          user: results.rows,
         },
       });
     } catch (error) {
       console.log(error);
     }
-});
+  });
   //  SAMPLE ROUTE FOR Creating a new user (registration)
   router.post("/", async (req, res) => {
     try {
@@ -87,4 +87,3 @@ module.exports = function (router, db) {
 
 // Getting the specific item rating, base price and bid price by a renter
 // SELECT * FROM items LEFT JOIN (SELECT item_id, COUNT(*)as total_rent_count, TRUNC(AVG(item_rating),1) as average_rating FROM item_reviews group by item_id) item_reviews ON items.id = item_reviews.item_id RIGHT JOIN (SELECT item_id, rsrv_price_bid FROM reservations) reservations ON items.id = reservations.item_id
-

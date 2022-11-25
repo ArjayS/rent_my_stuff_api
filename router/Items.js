@@ -21,7 +21,7 @@ module.exports = function (router, db) {
   });
 
   // 2. Getting an item -> :id is based on items.id
-  router.get("/item/:id", async (req, res) => {
+  router.get("/:id/item", async (req, res) => {
     try {
       const results = await db.query(
         "SELECT * FROM items LEFT JOIN (SELECT item_id, COUNT(*), TRUNC(AVG(item_rating),1) as average_rating FROM item_reviews group by item_id) item_reviews ON items.id = item_reviews.item_id WHERE id = $1",
@@ -71,7 +71,7 @@ module.exports = function (router, db) {
   });
 
   // 4. Updating an item -> :id is based on items.id
-  router.put("/item/:id", async (req, res) => {
+  router.put("/:id/item", async (req, res) => {
     try {
       const results = await db.query(
         "UPDATE items SET owner_id = $1, item_name= $2, item_location = $3, item_base_price = $4, item_status = $5, item_image = $6, item_description = $7 WHERE id = $8 RETURNING *",
@@ -101,7 +101,7 @@ module.exports = function (router, db) {
   });
 
   // 5. Testing patch route, it works! confirmed in postman! Changing only the status of an item -> :id is based on items.id
-  router.patch("/item/:id", async (req, res) => {
+  router.patch("/:id/item", async (req, res) => {
     try {
       const results = await db.query(
         "UPDATE items SET item_status = $1 WHERE id = $2 RETURNING *",
@@ -122,7 +122,7 @@ module.exports = function (router, db) {
   });
 
   // 6. Deleting an item -> :id is based on items.id
-  router.delete("/item/:id", async (req, res) => {
+  router.delete("/:id/item", async (req, res) => {
     try {
       const results = await db.query(
         "DELETE FROM items WHERE id = $1 RETURNING *",
