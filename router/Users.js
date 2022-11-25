@@ -51,13 +51,33 @@ module.exports = function (router, db) {
       res.status(200).json({
         status: "Successfully getting the user items!",
         data: {
-          user: results.rows,
+          items: results.rows,
         },
       });
     } catch (error) {
       console.log(error);
     }
   });
+
+  //Getting items rented by user
+  router.get("/:id/rented", async (req,res) => {
+    try{
+      const results = await db.query(
+        "SELECT * FROM reservations WHERE guest_id = $1;",
+        [req.params.id]
+      );
+      res.status(200).json({
+        status: "Successfully getting the user items!",
+        data: {
+          items: results.rows,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+
   //  SAMPLE ROUTE FOR Creating a new user (registration)
   router.post("/", async (req, res) => {
     try {
