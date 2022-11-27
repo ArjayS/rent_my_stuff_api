@@ -11,9 +11,9 @@ VALUES
 ('Liam Chu', 'lchu@gmail.com', '12345', 'https://i.imgur.com/nPywAp1.jpg'),
 ('Sam Stanic', 'sstanic@gmail.com', '12345', 'https://i.imgur.com/okB9WKC.jpg');
 
-INSERT INTO items (item_name, item_location, item_base_price, item_status, item_image, item_description, owner_id) 
+INSERT INTO items (item_name, item_location, item_base_price, item_status, item_image_1, item_image_2, item_image_3, item_image_4, item_description, owner_id) 
 VALUES 
-('Stapler', 'Milton, ON', 5, true, 'Stapler picture', 'This stapler has a very springy bite', 1),
+('Swingline Stapler', 'Milton, ON', 450, true, 'Stapler picture', 'Stapler picture', 'Stapler picture', 'Stapler picture', 'LightTouch Reduced Effort Stapler simplifies stapling two to 20 sheets. Stapler is engineered for smooth, easy operation, and excels at low sheet counts. For best performance, use Swingline S.F. 4 Premium Staples. Full-strip stapler design accommodates full strip of 210 staples. Soft grip surfaces enhance feel and control for desktop or handheld use. Made with a durable plastic housing and metal mechanism.', 1),
 ('Scissor', 'Milton, ON', 2, false, 'Scissors picture', 'A very sharp scissors', 1),
 ('Pen', 'Milton, ON', 1, true, 'Pen picture', 'A pen that still has ink on it', 1),
 ('Measuring Tape', 'Victoria, BC', 2, false, 'Measuring Tape picture', 'It has both inches and cm on it', 2),
@@ -42,7 +42,9 @@ VALUES
 ('Lamp', 'Winnipeg, MB', 8, false, 'Lamp picture', 'Vintage Xbox Controller', 9),
 ('Mouse', 'Killarney, MB', 6, false, 'Mouse picture', 'The pad and the thumbstick still works!', 10),
 ('Camera', 'Killarney, MB', 3, false, 'Camera picture', 'A classic and is still working!', 10),
-('Industrial Fan', 'Killarney, MB', 20, false, 'Industrial Fan picture', 'Recently bought PS5', 10);
+('Industrial Fan', 'Killarney, MB', 20, false, 'Industrial Fan picture', 'Recently bought PS5', 10),
+('Bostitch Red Stapler', 'Mississauga, ON', 500, true, 'Stapler picture', 'Stapler picture', 'Stapler picture', 'Stapler picture', 'With One-Finger Stapling Technology by PaperPro, all it takes is a finger to get the job done. The long-lasting sleek, die-cast metal body provides the eye candy your desk craves. The easy stapling of up to 20 sheets along with the ergonomic non-slip comfort grip and base, provide the luxury you deserve. Using standard staples, it also works jam-free and opens for bulletin board tacking. Perfect for home, school, or the office experience a better way to staple.', 3),
+('Bostitch Red Stapler', 'Vancouver, ON', 750, true, 'Stapler picture', 'Stapler picture', 'Stapler picture', 'Stapler picture', 'Deli long reach stapler, maximum stapling depth is 12'', perfect choice for binding books, pamphlets, brochures, or card mounting. All metal stapler is designed for durability. Stapler uses regular size staples, 1/4'' (24/6 or 26/6), and has 25 sheets of regular paper stapling capacity.', 5);
 
 INSERT INTO reservations (guest_id, item_id, rsrv_start_date, rsrv_end_date, rsrv_date_returned, rsrv_price_bid, rsrv_approval) VALUES
 (2, 1, '2022-11-18', '2022-11-25', '2022-11-25', 800, true),
