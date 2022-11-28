@@ -63,7 +63,7 @@ module.exports = function (router, db) {
   router.get("/:id/rented", async (req,res) => {
     try{
       const results = await db.query(
-        "SELECT * FROM reservations WHERE guest_id = $1;",
+        "SELECT reservations.*, items.id, items.item_name, items.item_image, items.item_description FROM reservations JOIN items ON reservations.item_id=items.id WHERE reservations.guest_id = $1;",
         [req.params.id]
       );
       res.status(200).json({
