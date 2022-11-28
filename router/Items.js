@@ -70,6 +70,19 @@ module.exports = function (router, db) {
     }
   });
 
+  router.get("/new", async (req, res) => {
+    try {
+      res.status(201).json({
+        status: "Successfully added/created a new item",
+        data: {
+          item: results.rows[0],
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
   // 4. Updating an item -> :id is based on items.id
   router.put("/:id/item", async (req, res) => {
     try {

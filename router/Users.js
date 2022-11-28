@@ -60,10 +60,10 @@ module.exports = function (router, db) {
   });
 
   //Getting items rented by user
-  router.get("/:id/rented", async (req,res) => {
-    try{
+  router.get("/:id/rented", async (req, res) => {
+    try {
       const results = await db.query(
-        "SELECT * FROM reservations WHERE guest_id = $1;",
+        "SELECT reservations.*, items.id, items.item_name, items.item_image, items.item_description FROM reservations JOIN items ON reservations.item_id=items.id WHERE reservations.guest_id = $1;",
         [req.params.id]
       );
       res.status(200).json({
@@ -76,7 +76,6 @@ module.exports = function (router, db) {
       console.log(error);
     }
   });
-
 
   //  SAMPLE ROUTE FOR Creating a new user (registration)
   router.post("/", async (req, res) => {
