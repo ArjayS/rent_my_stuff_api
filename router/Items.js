@@ -156,5 +156,26 @@ module.exports = function (router, db) {
     }
   });
 
+  //7. Getting all the bids of an item
+  router.get("/:id/bids", async (req, res) => {
+    try{
+      const results = await db.query(
+        "SELECT reservations.*, items.id, items.item_name, items.item_base_price FROM reservations JOIN items ON reservations.item_id=items.id WHERE reservations.item_id = $1",
+        [req.params.id]
+      );
+
+      console.log(results);
+
+      res.status(200).json({
+        status: "Successfully getting the item",
+        data: {
+          item: results.rows[0],
+        },
+      }); 
+    } catch(error){
+      console.log(error);
+    }  
+  })
+
   return router;
 };
