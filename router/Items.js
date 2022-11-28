@@ -160,7 +160,7 @@ module.exports = function (router, db) {
   router.get("/:id/bids", async (req, res) => {
     try{
       const results = await db.query(
-        "SELECT reservations.*, items.id, items.item_name, items.item_base_price FROM reservations JOIN items ON reservations.item_id=items.id WHERE reservations.item_id = $1",
+        "SELECT reservations.*, items.id, items.item_image, items.item_name, items.item_base_price FROM reservations JOIN items ON reservations.item_id=items.id WHERE reservations.item_id = $1",
         [req.params.id]
       );
 
@@ -169,7 +169,7 @@ module.exports = function (router, db) {
       res.status(200).json({
         status: "Successfully getting the item",
         data: {
-          item: results.rows[0],
+          item: results.rows,
         },
       }); 
     } catch(error){
