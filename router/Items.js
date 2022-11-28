@@ -24,7 +24,7 @@ module.exports = function (router, db) {
   router.get("/:id/item", async (req, res) => {
     try {
       const results = await db.query(
-        "SELECT * FROM items LEFT JOIN (SELECT item_id, COUNT(*), TRUNC(AVG(item_rating),1) as average_rating FROM item_reviews group by item_id) item_reviews ON items.id = item_reviews.item_id RIGHT JOIN (SELECT id, user_name FROM users) users ON items.owner_id = users.id WHERE item_id = $1",
+        "SELECT * FROM items LEFT JOIN (SELECT item_id, COUNT(*), TRUNC(AVG(item_rating),1) AS average_rating FROM item_reviews group by item_id) item_reviews ON items.id = item_reviews.item_id RIGHT JOIN (SELECT id AS owner_id, user_name AS owner_name FROM users) users ON items.owner_id = users.owner_id WHERE items.id = $1",
         [req.params.id]
       );
 
