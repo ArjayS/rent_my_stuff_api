@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS reservations CASCADE;
 DROP TABLE IF EXISTS user_reviews CASCADE;
 DROP TABLE IF EXISTS item_reviews CASCADE;
 
-CREATE DATABASE rentmystuff;
+-- CREATE DATABASE rentmystuff;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE reservations (
   rsrv_end_date DATE,
   rsrv_date_returned DATE,
   rsrv_price_bid INTEGER NOT NULL DEFAULT 0,
-  rsrv_approval BOOLEAN NOT NULL DEFAULT FALSE
+  rsrv_approval VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE user_reviews (
