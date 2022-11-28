@@ -21,10 +21,7 @@ CREATE TABLE items (
   item_location VARCHAR(255) NOT NULL,
   item_base_price INTEGER NOT NULL DEFAULT 0,
   item_status BOOLEAN NOT NULL DEFAULT TRUE,
-  item_image_1 VARCHAR(255) NOT NULL,
-  item_image_2 VARCHAR(255) NOT NULL,
-  item_image_3 VARCHAR(255) NOT NULL,
-  item_image_4 VARCHAR(255) NOT NULL,
+  item_image VARCHAR(255) NOT NULL,
   item_description TEXT
 );
 
