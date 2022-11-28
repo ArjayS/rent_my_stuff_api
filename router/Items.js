@@ -24,7 +24,7 @@ module.exports = function (router, db) {
   router.get("/:id/item", async (req, res) => {
     try {
       const results = await db.query(
-        "SELECT * FROM items LEFT JOIN (SELECT item_id, COUNT(*), TRUNC(AVG(item_rating),1) as average_rating FROM item_reviews group by item_id) item_reviews ON items.id = item_reviews.item_id WHERE id = $1",
+        "SELECT * FROM items LEFT JOIN (SELECT item_id, COUNT(*), TRUNC(AVG(item_rating),1) as average_rating FROM item_reviews group by item_id) item_reviews ON items.id = item_reviews.item_id RIGHT JOIN (SELECT id, user_name FROM users) users ON items.owner_id = users.id WHERE item_id = $1",
         [req.params.id]
       );
 
@@ -70,8 +70,8 @@ module.exports = function (router, db) {
     }
   });
 
-  router.get("/new", async(req,res) => {
-    try{
+  router.get("/new", async (req, res) => {
+    try {
       res.status(201).json({
         status: "Successfully added/created a new item",
         data: {
@@ -82,7 +82,6 @@ module.exports = function (router, db) {
       console.log(error);
     }
   });
-
 
   // 4. Updating an item -> :id is based on items.id
   router.put("/:id/item", async (req, res) => {
@@ -158,7 +157,7 @@ module.exports = function (router, db) {
 
   //7. Getting all the bids of an item
   router.get("/:id/bids", async (req, res) => {
-    try{
+    try {
       const results = await db.query(
         "SELECT reservations.*, items.id, items.item_name, items.item_base_price FROM reservations JOIN items ON reservations.item_id=items.id WHERE reservations.item_id = $1",
         [req.params.id]
@@ -171,11 +170,11 @@ module.exports = function (router, db) {
         data: {
           item: results.rows[0],
         },
-      }); 
-    } catch(error){
+      });
+    } catch (error) {
       console.log(error);
-    }  
-  })
+    }
+  });
 
   return router;
 };
