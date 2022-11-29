@@ -70,7 +70,7 @@ INSERT INTO reservations (guest_id, item_id, rsrv_start_date, rsrv_end_date, rsr
 (7, 5, '2022-11-15', '2022-11-25', '2022-11-25', 1200, 'pending'),
 (4, 7, '2022-11-18', '2022-11-23', '2022-11-23', 700, 'pending'),
 (10, 8, '2022-11-19', '2022-11-21', '2022-11-21', 500, 'pending'),
-( null, 5, null, null, null, 1300, 'pending'),
+( 10, 5, '2022-11-19', '2022-11-21', '2022-11-21', 1300, 'pending'),
 ( null, 10, null, null, null, 900, 'pending'),
 ( null, 11, null, null, null, 500, 'pending'),
 ( null, 12, null, null, null, 400, 'pending'),
