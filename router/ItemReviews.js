@@ -47,5 +47,31 @@ module.exports = function (router, db) {
     }
   });
 
+  // Creating a new item review based on a specific item and a specific renter(user) -> :id is based on item_reviews.item_id
+  router.post("/stuff/:item_id/renter/:guest_id", async (req, res) => {
+    try {
+      const results = await db.query(
+        "INSERT INTO item_reviews (guest_id, item_id, item_rating, item_message) VALUES ($1, $2, $3, $4) RETURNING *",
+        [
+          req.params.guest_id,
+          req.params.item_id,
+          req.body.item_rating,
+          req.body.item_message,
+        ]
+      );
+
+      console.log(results);
+
+      res.status(201).json({
+        status: "Successfully created an item review!",
+        data: {
+          user: results.rows[0],
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
   return router;
 };
