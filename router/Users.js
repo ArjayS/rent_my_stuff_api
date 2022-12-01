@@ -77,8 +77,8 @@ module.exports = function (router, db) {
     }
   });
 
-  //  SAMPLE ROUTE FOR Creating a new user (registration)
-  router.post("/", async (req, res) => {
+  // (Register) Creating a new user
+  router.post("/register", async (req, res) => {
     try {
       const results = await db.query(
         "INSERT INTO users (user_name, user_email, user_password, user_image) VALUES ($1, $2, $3, $4) RETURNING *",
@@ -93,9 +93,27 @@ module.exports = function (router, db) {
         status: "Successfully getting all items",
         results: results.rows.length,
         data: {
-          items: results.rows,
+          user: results.rows,
         },
       });
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  // (Logging In) Accessing an existing user
+  router.post("/login", async (req, res) => {
+    try {
+      const results = await db.query(
+        "SELECT * FROM users WHERE user_email = $1 AND user_password = $2",
+        [req.body.user_email, req.body.user_password]
+      );
+
+      if (results.rows.length > 0) {
+        res.status(201).send(results.rows[0]);
+      } else {
+        res.send({ message: "Wrong username/password combination!" });
+      }
     } catch (error) {
       console.log(error);
     }
