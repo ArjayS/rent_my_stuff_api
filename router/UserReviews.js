@@ -25,7 +25,7 @@ module.exports = function (router, db) {
   router.post("/renter/:id", async (req, res) => {
     try {
       const results = await db.query(
-        "INSERT INTO user_reviews (guest_id, owner_id, item_id, rent_worthy, rent_message) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+        "INSERT INTO user_reviews (guest_id, owner_id, item_id, rent_worthy, rent_message) VALUES ($1, $2, $3, $4, $5) RETURNING *;",
         [
           req.params.id,
           req.body.owner_id,
