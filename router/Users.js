@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt");
+
 module.exports = function (router, db) {
   // 7. Getting all users
   router.get("/", async (req, res) => {
@@ -66,6 +68,7 @@ module.exports = function (router, db) {
         "SELECT reservations.*, items.id, items.item_name, items.item_image, items.item_description FROM reservations JOIN items ON reservations.item_id=items.id WHERE reservations.guest_id = $1;",
         [req.params.id]
       );
+
       res.status(200).json({
         status: "Successfully getting the user items!",
         data: {
@@ -80,20 +83,25 @@ module.exports = function (router, db) {
   // (Register) Creating a new user
   router.post("/register", async (req, res) => {
     try {
+      const { user_name, user_email, user_password, user_image } = req.body;
+
+      const saltRounds = 10;
+      const salt = await bcrypt.genSalt(saltRounds);
+
+      const bcryptPassword = await bcrypt.hash(user_password, salt);
+
       const results = await db.query(
         "INSERT INTO users (user_name, user_email, user_password, user_image) VALUES ($1, $2, $3, $4) RETURNING *",
-        [
-          req.body.user_name,
-          req.body.user_email,
-          req.body.user_password,
-          req.body.user_image,
-        ]
+        [user_name, user_email, bcryptPassword, user_image]
       );
+
+      req.session.user = results.rows[0];
+
       res.status(201).json({
         status: "Successfully getting all items",
         results: results.rows.length,
         data: {
-          user: results.rows,
+          user: results.rows[0],
         },
       });
     } catch (error) {
@@ -101,15 +109,35 @@ module.exports = function (router, db) {
     }
   });
 
+  // Getting the req.session.user
+  router.get("/login", async (req, res) => {
+    console.log("Getting:", req.session.user);
+
+    if (req.session.user) {
+      res.send({ loggedIn: true, user: req.session.user });
+    } else {
+      res.send({ loggedIn: false });
+    }
+  });
+
   // (Logging In) Accessing an existing user
   router.post("/login", async (req, res) => {
     try {
+      const { user_email, user_password } = req.body;
+
       const results = await db.query(
-        "SELECT * FROM users WHERE user_email = $1 AND user_password = $2",
-        [req.body.user_email, req.body.user_password]
+        "SELECT * FROM users WHERE user_email = $1",
+        [user_email]
       );
 
-      if (results.rows.length > 0) {
+      const validPassword = await bcrypt.compare(
+        user_password,
+        user.rows[0].user_password
+      );
+
+      if (validPassword) {
+        req.session.user = results.rows[0];
+        console.log(req.sessions.user);
         res.status(201).send(results.rows[0]);
       } else {
         res.send({ message: "Wrong username/password combination!" });

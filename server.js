@@ -1,18 +1,48 @@
 require("dotenv").config();
 const express = require("express");
-const cors = require('cors')
+const cors = require("cors");
 const database = require("./db");
 
 // const fs = require("fs");
 // const path = require("path");
+
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
 
 const app = express();
 const morgan = require("morgan");
 
 // MIDDLEWARE
 app.use(morgan("dev"));
-app.use(cors())
 app.use(express.json());
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    creadentials: true,
+  })
+);
+
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(
+  session({
+    secret: "RentMyStuff",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      httpOnly: true,
+      maxAge: 3600000,
+    },
+  })
+);
+
+app.use((req, res, next) => {
+  console.log(req.session);
+  next();
+});
 
 // // Function to be able to "read(file)". This is a setup function for /api/debug/reset.
 // function read(file) {
