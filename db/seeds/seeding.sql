@@ -1,7 +1,7 @@
 INSERT INTO users (user_name, user_email, user_password, user_image)
 VALUES
-('Sylvia Palmer', 'spalmer@gmail.com', '12345', 'https://i.imgur.com/LpaY82x.png'),
-('Terrence Malcolm', 'tmalcolm@gmail.com', '12345', 'https://i.imgur.com/Nmx0Qxo.png'),
+('Sylvia Palmer', 'thing4@mail.com', '$2b$10$HxC1ZypPzn8euTe7ofIWReDEMdfP5BeGzFJFEcRFVFK1HOYK2Uo9.', 'https://i.imgur.com/LpaY82x.png'),
+('Terrence Malcolm', 'thing5@mail.com', '$2b$10$.Kr.QrAS3HOa54X5.oBih.JWpmpA6JO9/yb1VTSKwMrVWbfd7LO0i', 'https://i.imgur.com/Nmx0Qxo.png'),
 ('Mildred Nazir', 'mnazir@gmail.com', '12345', 'https://i.imgur.com/T2WwVfS.png'),
 ('Charles Roy', 'croy@gmail.com', '12345', 'https://i.imgur.com/FK8V841.jpg'),
 ('Sven Jones', 'sjones@gmail.com', '12345', 'https://i.imgur.com/twYrpay.jpg'),
@@ -10,6 +10,7 @@ VALUES
 ('Viktor Jain', 'vjain@gmail.com', '12345', 'https://i.imgur.com/iHq8K8Z.jpg'),
 ('Liam Chu', 'lchu@gmail.com', '12345', 'https://i.imgur.com/nPywAp1.jpg'),
 ('Sam Stanic', 'sstanic@gmail.com', '12345', 'https://i.imgur.com/okB9WKC.jpg');
+
 
 INSERT INTO items (item_name, item_location, item_base_price, item_status, item_image, item_description, owner_id) 
 VALUES 
