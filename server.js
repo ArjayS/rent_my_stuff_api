@@ -16,11 +16,12 @@ const morgan = require("morgan");
 // MIDDLEWARE
 app.use(morgan("dev"));
 app.use(express.json());
+// app.use(cors());
 app.use(
   cors({
     origin: ["http://localhost:3000"],
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    creadentials: true,
+    methods: ["GET", "POST"],
+    credentials: true,
   })
 );
 
@@ -33,7 +34,6 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      httpOnly: true,
       maxAge: 3600000,
     },
   })

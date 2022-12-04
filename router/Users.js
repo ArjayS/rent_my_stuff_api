@@ -1,6 +1,17 @@
 const bcrypt = require("bcrypt");
 
 module.exports = function (router, db) {
+  // Getting the req.session.user
+  router.get("/login", async (req, res) => {
+    console.log("Getting:", req.session.user);
+
+    if (req.session.user) {
+      res.send({ loggedIn: true, user: req.session.user });
+    } else {
+      res.send({ loggedIn: false });
+    }
+  });
+
   // 7. Getting all users
   router.get("/", async (req, res) => {
     try {
@@ -90,33 +101,23 @@ module.exports = function (router, db) {
 
       const bcryptPassword = await bcrypt.hash(user_password, salt);
 
-      const results = await db.query(
+      const user = await db.query(
         "INSERT INTO users (user_name, user_email, user_password, user_image) VALUES ($1, $2, $3, $4) RETURNING *",
         [user_name, user_email, bcryptPassword, user_image]
       );
 
-      req.session.user = results.rows[0];
+      req.session.user = user.rows[0];
+
+      console.log("registered:", req.session.user);
 
       res.status(201).json({
-        status: "Successfully getting all items",
-        results: results.rows.length,
+        status: "Successfully got the user",
         data: {
-          user: results.rows[0],
+          user: user.rows[0],
         },
       });
     } catch (error) {
       console.log(error);
-    }
-  });
-
-  // Getting the req.session.user
-  router.get("/login", async (req, res) => {
-    console.log("Getting:", req.session.user);
-
-    if (req.session.user) {
-      res.send({ loggedIn: true, user: req.session.user });
-    } else {
-      res.send({ loggedIn: false });
     }
   });
 
@@ -125,20 +126,23 @@ module.exports = function (router, db) {
     try {
       const { user_email, user_password } = req.body;
 
-      const results = await db.query(
-        "SELECT * FROM users WHERE user_email = $1",
-        [user_email]
-      );
+      const user = await db.query("SELECT * FROM users WHERE user_email = $1", [
+        user_email,
+      ]);
+
+      // console.log(results.rows[0]);
 
       const validPassword = await bcrypt.compare(
         user_password,
         user.rows[0].user_password
       );
 
+      // console.log(validPassword);
+
       if (validPassword) {
-        req.session.user = results.rows[0];
-        console.log(req.sessions.user);
-        res.status(201).send(results.rows[0]);
+        req.session.user = user.rows[0];
+        console.log("req.session.user:", req.session.user);
+        res.status(201).send(user.rows[0]);
       } else {
         res.send({ message: "Wrong username/password combination!" });
       }
