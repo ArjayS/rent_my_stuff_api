@@ -1,4 +1,17 @@
+const bcrypt = require("bcrypt");
+
 module.exports = function (router, db) {
+  // Getting the req.session.user
+  router.get("/login", async (req, res) => {
+    console.log("Getting:", req.session.user);
+
+    if (req.session.user) {
+      res.send({ loggedIn: true, user: req.session.user });
+    } else {
+      res.send({ loggedIn: false });
+    }
+  });
+
   // 7. Getting all users
   router.get("/", async (req, res) => {
     try {
@@ -66,6 +79,7 @@ module.exports = function (router, db) {
         "SELECT reservations.*, items.id, items.item_name, items.item_image, items.item_description FROM reservations JOIN items ON reservations.item_id=items.id WHERE reservations.guest_id = $1;",
         [req.params.id]
       );
+
       res.status(200).json({
         status: "Successfully getting the user items!",
         data: {
@@ -77,25 +91,61 @@ module.exports = function (router, db) {
     }
   });
 
-  //  SAMPLE ROUTE FOR Creating a new user (registration)
-  router.post("/", async (req, res) => {
+  // (Register) Creating a new user
+  router.post("/register", async (req, res) => {
     try {
-      const results = await db.query(
+      const { user_name, user_email, user_password, user_image } = req.body;
+
+      const saltRounds = 10;
+      const salt = await bcrypt.genSalt(saltRounds);
+
+      const bcryptPassword = await bcrypt.hash(user_password, salt);
+
+      const user = await db.query(
         "INSERT INTO users (user_name, user_email, user_password, user_image) VALUES ($1, $2, $3, $4) RETURNING *",
-        [
-          req.body.user_name,
-          req.body.user_email,
-          req.body.user_password,
-          req.body.user_image,
-        ]
+        [user_name, user_email, bcryptPassword, user_image]
       );
+
+      req.session.user = user.rows[0];
+
+      console.log("registered:", req.session.user);
+
       res.status(201).json({
-        status: "Successfully getting all items",
-        results: results.rows.length,
+        status: "Successfully got the user",
         data: {
-          items: results.rows,
+          user: user.rows[0],
         },
       });
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  // (Logging In) Accessing an existing user
+  router.post("/login", async (req, res) => {
+    try {
+      const { user_email, user_password } = req.body;
+
+      const user = await db.query("SELECT * FROM users WHERE user_email = $1", [
+        user_email,
+      ]);
+
+      // console.log(results.rows[0]);
+
+      const validPassword = await bcrypt.compare(
+        user_password,
+        user.rows[0].user_password
+      );
+
+      // console.log(validPassword);
+
+      if (validPassword) {
+        req.session.user = user.rows[0];
+        console.log("req.session.user:", req.session.user);
+        res.status(201).send(user.rows[0]);
+      } else {
+        res.send({ message: "Wrong username/password combination!" });
+      }
     } catch (error) {
       console.log(error);
     }
