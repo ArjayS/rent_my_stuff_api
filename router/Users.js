@@ -1,14 +1,25 @@
 const bcrypt = require("bcrypt");
 
 module.exports = function (router, db) {
-  // Getting the req.session.user
+  // Confirming req.session.user is there when they login
   router.get("/login", async (req, res) => {
-    console.log("Getting:", req.session.user);
+    console.log("Getting user:", req.session.user);
 
     if (req.session.user) {
       res.send({ loggedIn: true, user: req.session.user });
     } else {
       res.send({ loggedIn: false });
+    }
+  });
+
+  // Confirming req.session.user = null for logout
+  router.get("/logout", async (req, res) => {
+    console.log("Getting null:", req.session.user);
+
+    if (!req.session.user) {
+      res.send({ loggedIn: false, user: req.session.user });
+    } else {
+      res.send({ loggedIn: true });
     }
   });
 
@@ -146,6 +157,17 @@ module.exports = function (router, db) {
       } else {
         res.send({ message: "Wrong username/password combination!" });
       }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  // (Logging Out) Destroying the access of a logged in user
+  router.post("/logout", (req, res) => {
+    try {
+      req.session.user = null;
+      console.log("req.session.user:", req.session.user);
+      res.status(201).send(req.session.user);
     } catch (error) {
       console.log(error);
     }
