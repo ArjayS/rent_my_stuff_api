@@ -45,13 +45,12 @@ module.exports = function (router, db) {
   router.post("/", async (req, res) => {
     try {
       const results = await db.query(
-        "INSERT INTO items (owner_id, item_name, item_location,item_base_price, item_status, item_image, item_description) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+        "INSERT INTO items (owner_id, item_name, item_location,item_base_price, item_image, item_description) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
         [
           req.body.owner_id,
           req.body.item_name,
           req.body.item_location,
           req.body.item_base_price,
-          req.body.item_status,
           req.body.item_image,
           req.body.item_description,
         ]
