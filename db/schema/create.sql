@@ -31,9 +31,9 @@ CREATE TABLE reservations (
   item_id INTEGER REFERENCES items(id) ON DELETE CASCADE NOT NULL,
   rsrv_start_date DATE,
   rsrv_end_date DATE,
-  rsrv_date_returned DATE,
+  rsrv_date_returned DATE DEFAULT NULL,
   rsrv_price_bid INTEGER NOT NULL DEFAULT 0,
-  rsrv_approval VARCHAR(255) NOT NULL
+  rsrv_approval VARCHAR(255) NOT NULL DEFAULT 'pending'
 );
 
 CREATE TABLE user_reviews (
