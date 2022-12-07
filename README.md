@@ -4,6 +4,8 @@
 
 This is the server-side of our app, rent_my_stuff_api. The technology used on the server-side are, as follows,
 
+### Dependencies
+
 ```js
   "bcrypt": "^5.1.0",
   "body-parser": "^1.20.1",
