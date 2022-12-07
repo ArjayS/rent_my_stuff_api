@@ -1,6 +1,6 @@
 # Rent My Stuff API
 
-This is the server-side of our app, rent_my_stuff_api. The technology used on the server side are, as follows,
+This is the server-side of our app, rent_my_stuff_api. The technology used on the server-side are, as follows,
 
 ```js
   "bcrypt": "^5.1.0",
@@ -14,6 +14,8 @@ This is the server-side of our app, rent_my_stuff_api. The technology used on th
   "nodemon": "^2.0.20",
   "pg": "^8.8.0"
 ```
+
+The members who did this project are [Robert Servado](https://github.com/ArjayS) and [Roberto Cervantes Betancourt](https://github.com/robertocervantesbetancourt)
 
 ## Project Conception
 
@@ -92,3 +94,7 @@ Running the server normally,
 ```sh
 npm start
 ```
+
+## Future Plans for the project
+
+- List of goals and milestones will be displayed here soon
