@@ -4,6 +4,20 @@
 
 This is the server-side of our app, rent_my_stuff_api. The technology used on the server-side are, as follows,
 
+The members who did this project are [Robert Servado](https://github.com/ArjayS) and [Roberto Cervantes Betancourt](https://github.com/robertocervantesbetancourt)
+
+## Project Conception
+
+We did our Project Planning using Miro, [RentMyStuff](https://miro.com/app/board/uXjVPekaWGA=/?share_link_id=417791244789)
+
+### Setup Instruction
+
+Install dependencies with,
+
+```sh
+npm install
+```
+
 ### Dependencies
 
 ```js
@@ -17,20 +31,6 @@ This is the server-side of our app, rent_my_stuff_api. The technology used on th
   "morgan": "^1.10.0",
   "nodemon": "^2.0.20",
   "pg": "^8.8.0"
-```
-
-The members who did this project are [Robert Servado](https://github.com/ArjayS) and [Roberto Cervantes Betancourt](https://github.com/robertocervantesbetancourt)
-
-## Project Conception
-
-We did our Project Planning using Miro, [RentMyStuff](https://miro.com/app/board/uXjVPekaWGA=/?share_link_id=417791244789)
-
-### Setup Instruction
-
-Install dependencies with,
-
-```sh
-npm install
 ```
 
 #### Create the Database
