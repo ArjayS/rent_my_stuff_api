@@ -1,5 +1,7 @@
 # Rent My Stuff API
 
+## Project Description
+
 This is the server-side of our app, rent_my_stuff_api. The technology used on the server-side are, as follows,
 
 ```js
@@ -21,7 +23,7 @@ The members who did this project are [Robert Servado](https://github.com/ArjayS)
 
 We did our Project Planning using Miro, [RentMyStuff](https://miro.com/app/board/uXjVPekaWGA=/?share_link_id=417791244789)
 
-## Setup
+### Setup Instruction
 
 Install dependencies with,
 
@@ -29,7 +31,7 @@ Install dependencies with,
 npm install
 ```
 
-## Create the Database
+#### Create the Database
 
 To load all of the information within the db directory and go to the root directory of 'rent_my_stuff_api',
 
@@ -57,7 +59,7 @@ PGDATABASE=rentmystuff
 PGPORT=5432
 ```
 
-### Setup Database (Create Table and Seeding Information)
+#### Setup Database (Create Table and Seeding Information)
 
 To load all of the information within the db directory go to the root directory of 'rent_my_stuff_api',
 
@@ -87,7 +89,7 @@ and,
 
 You should have all the needed information for the database
 
-## Run the Server
+### Run the Server
 
 Running the server normally,
 
