@@ -4,6 +4,8 @@
 
 This is the server-side of our app, rent_my_stuff_api. The technology used on the server-side are, as follows,
 
+### Project members
+
 The members who did this project are [Robert Servado](https://github.com/ArjayS) and [Roberto Cervantes Betancourt](https://github.com/robertocervantesbetancourt)
 
 ## Project Conception
